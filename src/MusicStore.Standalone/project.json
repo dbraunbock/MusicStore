@@ -68,13 +68,7 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.1.0-*"
   },
   "frameworks": {
-    "netcoreapp1.0": {
-      "dependencies": {
-        "Microsoft.NETCore.App": {
-          "version": "1.0.0-*"
-        }
-      }
-    }
+    "net46": {}
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-*"
