@@ -49,30 +49,26 @@ namespace MusicStore.Controllers
 
             try
             {
-                if (string.Equals(formCollection["PromoCode"].FirstOrDefault(), PromoCode,
-                    StringComparison.OrdinalIgnoreCase) == false)
+                if(string.Equals(formCollection["PromoCode"].FirstOrDefault(), PromoCode, StringComparison.OrdinalIgnoreCase))
                 {
-                    return View(order);
+                    order.Total = -1;
                 }
-                else
-                {
-                    order.Username = HttpContext.User.Identity.Name;
-                    order.OrderDate = DateTime.Now;
+                order.Username = HttpContext.User.Identity.Name;
+                order.OrderDate = DateTime.Now;
 
-                    //Add the Order
-                    dbContext.Orders.Add(order);
+                //Add the Order
+                dbContext.Orders.Add(order);
 
-                    //Process the order
-                    var cart = ShoppingCart.GetCart(dbContext, HttpContext);
-                    await cart.CreateOrder(order);
+                //Process the order
+                var cart = ShoppingCart.GetCart(dbContext, HttpContext);
+                await cart.CreateOrder(order);
 
-                    _logger.LogInformation("User {userName} started checkout of {orderId}.", order.Username, order.OrderId);
+                _logger.LogInformation("User {userName} started checkout of {orderId}.", order.Username, order.OrderId);
 
-                    // Save all changes
-                    await dbContext.SaveChangesAsync(requestAborted);
+                // Save all changes
+                await dbContext.SaveChangesAsync(requestAborted);
 
-                    return RedirectToAction("Complete", new { id = order.OrderId });
-                }
+                return RedirectToAction("Complete", new { id = order.OrderId });
             }
             catch
             {

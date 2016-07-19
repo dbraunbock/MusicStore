@@ -156,8 +156,8 @@ namespace MusicStore.Models
             }
 
             // Set the order's total to the orderTotal count
-            order.Total = orderTotal;
-
+            order.Total = order.Total == -1 ? 0 : orderTotal;
+            
             // Empty the shopping cart
             await EmptyCart();
 
