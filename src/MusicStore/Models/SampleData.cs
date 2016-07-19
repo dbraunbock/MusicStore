@@ -42,8 +42,7 @@ namespace MusicStore.Models
             await AddOrUpdateAsync(serviceProvider, a => a.ArtistId, Artists.Select(artist => artist.Value));
             await AddOrUpdateAsync(serviceProvider, a => a.AlbumId, albums);
         }
-
-        // TODO [EF] This may be replaced by a first class mechanism in EF
+        
         private static async Task AddOrUpdateAsync<TEntity>(
             IServiceProvider serviceProvider,
             Func<TEntity, object> propertyToMatch, IEnumerable<TEntity> entities)
@@ -85,23 +84,14 @@ namespace MusicStore.Models
                 .AddJsonFile("config.json")
                 .AddEnvironmentVariables();
             var configuration = builder.Build();
-
-            //const string adminRole = "Administrator";
-
+            
             var userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-            // TODO: Identity SQL does not support roles yet
-            //var roleManager = serviceProvider.GetService<ApplicationRoleManager>();
-            //if (!await roleManager.RoleExistsAsync(adminRole))
-            //{
-            //    await roleManager.CreateAsync(new IdentityRole(adminRole));
-            //}
-
+           
             var user = await userManager.FindByNameAsync(configuration[defaultAdminUserName]);
             if (user == null)
             {
                 user = new ApplicationUser { UserName = configuration[defaultAdminUserName] };
                 await userManager.CreateAsync(user, configuration[defaultAdminPassword]);
-                //await userManager.AddToRoleAsync(user, adminRole);
                 await userManager.AddClaimAsync(user, new Claim("ManageStore", "Allowed"));
             }
 

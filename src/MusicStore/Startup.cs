@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using MusicStore.Components;
 using MusicStore.Models;
 
@@ -35,18 +34,9 @@ namespace MusicStore
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
-            // Add EF services to the services container
-            if (_platform.UseInMemoryStore)
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseInMemoryDatabase());
-            }
-            else
-            {
-                services.AddDbContext<MusicStoreContext>(options =>
-                    options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
-            }
+            
+            services.AddDbContext<MusicStoreContext>(options =>
+                options.UseSqlServer(Configuration[StoreConfig.ConnectionStringKey.Replace("__", ":")]));
 
             // Add Identity services to the services container
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -93,7 +83,7 @@ namespace MusicStore
         }
 
         //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Development' or is not defined
-        //The allowed values are Development,Staging and Production
+        //The allowed values are Development, Staging and Production
         public void ConfigureDevelopment(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(minLevel: LogLevel.Information);
@@ -111,7 +101,7 @@ namespace MusicStore
         }
 
         //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Staging'
-        //The allowed values are Development,Staging and Production
+        //The allowed values are Development, Staging and Production
         public void ConfigureStaging(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(minLevel: LogLevel.Warning);
@@ -125,7 +115,7 @@ namespace MusicStore
         }
 
         //This method is invoked when ASPNETCORE_ENVIRONMENT is 'Production'
-        //The allowed values are Development,Staging and Production
+        //The allowed values are Development, Staging and Production
         public void ConfigureProduction(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(minLevel: LogLevel.Warning);
@@ -166,23 +156,7 @@ namespace MusicStore
                 ConsumerKey = "lDSPIu480ocnXYZ9DumGCDw37",
                 ConsumerSecret = "fpo0oWRNc3vsZKlZSq1PyOSoeXlJd7NnG4Rfc94xbFXsdcc3nH"
             });
-
-            // The MicrosoftAccount service has restrictions that prevent the use of
-            // http://localhost:5001/ for test applications.
-            // As such, here is how to change this sample to uses http://ktesting.com:5001/ instead.
-
-            // Edit the Project.json file and replace http://localhost:5001/ with http://ktesting.com:5001/.
-
-            // From an admin command console first enter:
-            // notepad C:\Windows\System32\drivers\etc\hosts
-            // and add this to the file, save, and exit (and reboot?):
-            // 127.0.0.1 ktesting.com
-
-            // Then you can choose to run the app as admin (see below) or add the following ACL as admin:
-            // netsh http add urlacl url=http://ktesting:5001/ user=[domain\user]
-
-            // The sample app can then be run via:
-            // dnx . web
+            
             app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions
             {
                 DisplayName = "MicrosoftAccount - Requires project changes",
