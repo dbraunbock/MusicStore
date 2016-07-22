@@ -56,13 +56,13 @@
     "Microsoft.EntityFrameworkCore.InMemory": "1.0.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
     "Microsoft.Extensions.Configuration.CommandLine": "1.0.0",
-    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0-alpha1-21649",
+    "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0-alpha1-21681",
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0"
   },
   "frameworks": {
-    "net46": {}
+    "net461": {}
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": "1.0.0-*"

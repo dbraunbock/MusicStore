@@ -9,7 +9,7 @@
     "xunit": "2.2.0-*"
   },
   "frameworks": {
-    "net46": {}
+    "net461": {}
   },
   "testRunner": "xunit"
 }

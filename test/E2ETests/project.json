@@ -25,7 +25,7 @@
     "xunit": "2.2.0-*"
   },
   "frameworks": {
-    "net46": {
+    "net461": {
       "frameworkAssemblies": {
         "System.IO.Compression": "4.0.0.0",
         "System.IO.Compression.FileSystem": "4.0.0.0"
